@@ -1,0 +1,220 @@
+/* Container styling */
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+/* Table container for responsiveness */
+.table-container {
+  overflow-x: auto;
+  /* height: 65vh;
+  overflow-y: scroll;
+  scrollbar-width: thin; */
+}
+.search-bar {
+  display: block;
+  width: 25%;
+}
+.search-container {
+  display: flex;
+  width: 100%;
+}
+.search-button {
+  margin-left: 60%;
+}
+/* Table styling */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.user-table th {
+  background-color: #212529;
+  font-weight: bold;
+  color: #fff;
+}
+/* Responsive design */
+@media screen and (max-width: 600px) {
+  .user-table,
+  .user-table thead,
+  .user-table tbody,
+  .user-table th,
+  .user-table td,
+  .user-table tr {
+    display: block;
+  }
+  .user-table tr {
+    margin-bottom: 1rem;
+  }
+  .user-table th {
+    display: none;
+  }
+  .user-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+  .user-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 15px;
+    font-weight: bold;
+  }
+}
+
+.dashboard-box {
+  display: block;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  margin-top: 2%;
+}
+
+.dashboard-box .headline {
+  display: block;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e4e4e4;
+  position: relative;
+}
+
+.ul .dashboard-box-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list-item {
+  padding-bottom: 0 !important;
+  scrollbar-width: thin;
+}
+
+.no-data {
+  text-align: center;
+  min-height: 500px;
+  padding: 100px !important;
+}
+
+.dashboard-box-list {
+  box-shadow: none;
+}
+
+ul.dashboard-box-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.dashboard-box-list > li {
+	border-bottom: 1px solid #e4e4e4;
+	padding: 0;
+	line-height: 26px;
+	padding: 22px 30px;
+	display: flex;
+    align-items: center;
+    position: relative;
+	width: 100%;
+	flex-flow: row wrap;
+	transition: 0.3s;
+}
+
+.dashboard-box .job-listing {
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.dashboard-box .job-listing .job-listing-footer {
+  background-color:transparent;
+  list-style:none;
+  padding: 0;
+  position: relative;
+  border-radius: 0 0 4px 4px;
+}
+
+.list-header{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+}
+.job-listing h3.job-listing-title {
+	font-size: 20px;
+	color: #333;
+	line-height: 30px;
+}
+
+.dashboard-box .job-listing h3 a {
+	color: #333;
+	font-size: 18px;
+  text-decoration: none !important;
+}
+
+.buttons-to-right{
+  width: 6%;
+}
+
+.buttons-to-right,
+.dashboard-box-list .button.to-right {
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transform: translateY(-50%);
+	/* opacity: 0; */
+	transition: 0.3s;
+	box-shadow: 0px 0px 10px 15px #fff;
+	background-color: #fff;
+}
+
+.dashboard-box .job-listing .job-listing-company-logo {
+	max-width: 50px;
+}
+
+.job-listing .job-listing-company-logo {
+	flex: 1;
+	max-width: 55px;
+	margin-right: 25px;
+	position: relative;
+	top: 3px;
+}
+
+.job-listing .job-listing-company-logo img {
+	border-radius: 30px;
+	transform: translate3d(0,0,0);
+  width: 55px;
+}
+
+.dashboard-box .job-listing-details {
+	box-shadow: none;
+	padding: 10px 0;
+	align-items: center;
+	flex: auto;
+}
+
+.dashboard-box .job-listing {
+	box-shadow: none;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.job-listing-details {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	padding: 35px;
+	padding-bottom: 32px;
+}

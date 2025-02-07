@@ -1,0 +1,25 @@
+import React, { useState } from "react";
+import './App.css';
+import MainView from './component/mainView';
+import NavBar from './component/navBar';
+import SideBar from './component/sidebar';
+import Footer from './component/footer';
+import { BrowserRouter as Router,Route,Routes,Link } from "react-router-dom";
+
+
+function Pages({ aimodel }) {
+  const [active, setActive] = useState(aimodel);
+  const [userName, setUserName] = useState("gabriel") ; 
+  return (
+    <div className="App">
+      <NavBar />
+      <div className='d-flex dashboardPage'>
+        <SideBar setActive={setActive} active={active} userName={userName} />
+        <MainView active={active} username={userName} />
+      </div>
+      {/* <Footer /> */}
+    </div>
+  );
+}
+
+export default Pages;
