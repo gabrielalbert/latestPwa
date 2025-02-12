@@ -4,7 +4,6 @@ import NavBar from "../component/navBar";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import config from "../config"; // Adjust the path as necessary
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +26,7 @@ const Login = () => {
     setError("");
     try {
       const response = await axios.get(
-        `${config.apiBaseUrl}user/login`,
+        "https://promptbuddyplayground-1.onrender.com/api/user/login",
         {
           params: { userName, password },
         }
@@ -38,11 +37,11 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(data));
         navigate("/");
       } else {
-        setError("User doesn't exist");
+        setError("Username/Password is incorrect.");
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setError("User doesn't exist");
+        setError("Username/Password is incorrect.");
       } else {
         setError("Something went wrong");
       }

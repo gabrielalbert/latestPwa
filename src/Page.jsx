@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import MainView from './component/mainView';
 import NavBar from './component/navBar';
 import SideBar from './component/sidebar';
 import Footer from './component/footer';
-import { BrowserRouter as Router,Route,Routes,Link } from "react-router-dom";
+import { BrowserRouter as Router,Route,Routes,Link, useLocation } from "react-router-dom";
 
 
 function Pages({ aimodel }) {
   const [active, setActive] = useState(aimodel);
   const [userName, setUserName] = useState("gabriel") ; 
+  
+
+  // useEffect(() => {
+  //   window.location.reload()
+  // }, [location.pathname])
+  
+
+
   return (
     <div className="App">
       <NavBar />

@@ -77,6 +77,7 @@ const SideNavbar = ({ active, setActive }) => {
           <li
             className={active === "Dashboard" ? "active" : "navigation"}
             onClick={() => handleItemClick("Dashboard")}
+            style={{fontStyle: 'italic', fontWeight: "600"}}
           >
             <Link
               to="/"
@@ -90,6 +91,8 @@ const SideNavbar = ({ active, setActive }) => {
           <li
             className={active === "Services" ? "active" : "navigation"}
             onClick={() => handleItemClick("Services")}
+            style={{fontStyle: 'italic', fontWeight: "600"}}
+
           >
             <Link
               to="/services"
@@ -137,7 +140,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
                 <li onClick={() => handleItemClick("Copilot-o1 Preview")}>
                   <Link
-                    to="/copilot"
+                    to="/copilot-preview"
                     className={
                       active === "Copilot-o1 Preview" ? "active" : "navigation"
                     }
@@ -170,7 +173,7 @@ const SideNavbar = ({ active, setActive }) => {
           </li>
 
           <li onClick={handleOpenSourceClick}>
-            <Link style={{ fontWeight: "600" }}>
+            <Link style={{ fontWeight: "600", fontStyle: 'italic' }}>
               <TbBrandOpenSource className="sidebar-icons" />
               &nbsp; Open Source
             </Link>
@@ -210,7 +213,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
                 <li onClick={() => handleItemClick("Mistralai/Mistral-nemo-Instruct-2407")}>
                   <Link
-                    to="/gemini-ai"
+                    to="/mistral-nemo"
                     className={
                       active === "Mistralai/Mistral-nemo-Instruct-2407" ? "active" : "navigation"
                     }
@@ -316,7 +319,9 @@ const SideNavbar = ({ active, setActive }) => {
           </li>
         </ul> */}
         <ul data-submenu-title="Settings">
-          <li onClick={() => handleItemClick("Users")}>
+          <li onClick={() => handleItemClick("Users")}
+            style={{fontStyle: 'italic', fontWeight: "600"}}
+            >
             <Link to="/user-list">
               <FaUsers className="sidebar-icons" /> &nbsp; Users
             </Link>

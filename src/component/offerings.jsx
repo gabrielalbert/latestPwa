@@ -10,7 +10,7 @@ import "../index.css";
 function Offerings() {
   return (
     <div className="section margin-top-65">
-      <div className="container" style={{ height: "1000px;" }}>
+      <div className="container" style={{ height: "1000px" }}>
         <div className="row">
           <div className="col-xl-12" style={{ height: "500px!important" }}>
             <div className="section-headline centered margin-bottom-15">

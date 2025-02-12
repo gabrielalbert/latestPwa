@@ -12,20 +12,30 @@ const NavBar = ({ userName }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+  // const toggleDrawer = () => {
+  //   setIsDrawerOpen(!isDrawerOpen);
+  // };
 
-  const logIn = (e) => {
-    console.log("lalallakskdjjdj");
-    e.preventDefault();
-    navigate("/log-in");
-  };
+  // const logIn = (e) => {
+  //   console.log("lalallakskdjjdj");
+  //   e.preventDefault();
+  //   navigate("/log-in");
+  // };
 
   const userData = localStorage.getItem("user");
   const parsedUser = userData ? JSON.parse(userData) : null;
   const displayName = parsedUser?.displayName;
   const roleName = parsedUser?.roleName;
+  // const userId = JSON.parse(userData).userId
+
+  const handleLogOut=()=>{
+    localStorage.clear();
+    navigate("/log-in")
+  }
+
+
+  console.log(userData,'userData-=-=-=')
+  // console.log(userId,'userId-=-=-=')
 
   return (
     <Navbar className="bg-body-tertiary">
@@ -64,7 +74,7 @@ const NavBar = ({ userName }) => {
           navbarScroll
         ></Nav>
 
-        <p>{userName} </p>
+        {/* <p>{userName} </p> */}
         <div
           className="user-avatar status-online"
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
@@ -82,7 +92,7 @@ const NavBar = ({ userName }) => {
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20z"></path>
           </svg>
         </div>
-        {isDrawerOpen && (
+        {isDrawerOpen && userData && (
           <div
             style={{
               position: "fixed",
@@ -127,7 +137,7 @@ const NavBar = ({ userName }) => {
                 </i>
                 Change Password
               </li>
-              <li onClick={() => navigate("/log-in")} style={{cursor: 'pointer', textAlign:'left'}}>
+              <li onClick={handleLogOut} style={{cursor: 'pointer', textAlign:'left'}}>
                 <i>
                   <AiOutlineLogout />
                 </i>

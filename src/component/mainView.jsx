@@ -148,17 +148,15 @@ function MainView({ active, username }) {
   };
 
   const handleReplyClick = ({ sender, text }) => {
-
     setReplyText(text)
   };
-
   const handleCloseClick = () => {
-
     setReplyText(null)
   };
 
   const fetchSuggestions = async (query) => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${config.apiBaseUrl}chat/autocomplete?query=${query}`,
         {
@@ -170,6 +168,7 @@ function MainView({ active, username }) {
 
       setSuggestions(result);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error fetching suggestions:", error);
     }
   };
@@ -282,6 +281,7 @@ function MainView({ active, username }) {
 
   const setFeedback = async (chatId, feedback) => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${config.apiBaseUrl}chat/feedback/${feedback}/${chatId}`,
         {
@@ -291,6 +291,7 @@ function MainView({ active, username }) {
       );
       const result = await response.json();
     } catch (error) {
+      setIsLoading(false);
       console.error("Error update feedback:", error);
     }
   };
@@ -476,6 +477,7 @@ function MainView({ active, username }) {
     console.log("History Loading1111:");
     console.log('aiModel', aiModel)
     try {
+      setIsLoading(true);
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
@@ -510,6 +512,7 @@ function MainView({ active, username }) {
 
       setShowDatePicker(false);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error fetching data:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -544,6 +547,7 @@ function MainView({ active, username }) {
     let modelName = active.replace('-', '|').replace(' ', '-').toLowerCase();
     console.log("History Loading----:", modelName);
     try {
+      setIsLoading(true);
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
@@ -574,6 +578,7 @@ function MainView({ active, username }) {
         scrollToBottom();
       });
     } catch (error) {
+      setIsLoading(false);
       console.error("Error fetching data:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -705,6 +710,7 @@ function MainView({ active, username }) {
         const formData = new FormData();
         formData.append("fileInput", selectedFile);
         try {
+          setIsLoading(true);
           const response = await fetch(`${config.apiBaseUrl}files/upload`, {
             method: "POST",
             body: formData,
@@ -712,9 +718,6 @@ function MainView({ active, username }) {
 
           apiResponse = await response.json();
           console.log("File name returned from API", apiResponse)
-
-
-
         } catch (error) {
 
         }
@@ -813,7 +816,7 @@ function MainView({ active, username }) {
     setMessages([...messages, newMessage]);
     setIsLoading(true);
     try {
-
+      setIsLoading(true);
       const response = await fetch(`${config.apiBaseUrl}chat/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json", proxyEnabled: "false" },
@@ -955,7 +958,7 @@ function MainView({ active, username }) {
           </div>
         </div>
       </div>
-      <div class="container">
+      <div className="container">
         <div className="row">
           {/* <div className="col-2" style={{backgroundColor:"white", height:"390px", marginRight:"-10px"}}>
 
@@ -965,7 +968,7 @@ function MainView({ active, username }) {
   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
 </svg>
     </div> */}
-          <div class="col-12">
+          <div className="col-12">
             <form onSubmit={handleSubmit}>
 
               <div className="">
@@ -1043,9 +1046,9 @@ function MainView({ active, username }) {
                   value={promptCommand}
                   onChange={handleTextAreaChange}
                 />
-                <div class="container">
-                  <div class="row" style={{ marginTop: "-20px" }}>
-                    <div class="col-2">
+                <div className="container">
+                  <div className="row" style={{ marginTop: "-20px" }}>
+                    <div className="col-2">
                       <button
                         type="button"
                         onClick={handleTextAreaChange}
@@ -1072,12 +1075,12 @@ function MainView({ active, username }) {
                         onClick={handleShow}
                         className="btn btn-primary btn-sm inner-btn"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16">
                           <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z" />
                         </svg>
                       </button>
                     </div>
-                    <div class="col-7" style={{ marginTop: "-50px" }}>
+                    <div className="col-7" style={{ marginTop: "-50px" }}>
                       {replyText ? <>
                         <label style={{ width: "95%", paddingLeft: "10px", height:"50px" }} className="other">{replyText}
                           
@@ -1093,7 +1096,7 @@ function MainView({ active, username }) {
                       </>
                         : ''}
                     </div>
-                    <div class="col-3">
+                    <div className="col-3">
                       <img
                         src="./sendbutton.png"
                         onClick={handleSubmit}
@@ -1122,15 +1125,6 @@ function MainView({ active, username }) {
                   </div>
 
                 </div>
-
-
-
-                {/* <button className="btn btn-primary btn-sm inner-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
-                        </svg>
-                        </button> */}
-
 
 
                 <div>
