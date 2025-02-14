@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 
 function HomePages() {
   const [active, setActive] = useState("Dashboard");
-  const [userName, setUserName] = useState("Gabriel");
+  
   return (
     <div
       className="f-flex flex-column min-vh-100"
@@ -19,7 +19,7 @@ function HomePages() {
     >
       <NavBar />
       <div className="d-flex dashboardPage">
-        <SideBar setActive={setActive} active={active} userName={userName} />
+        <SideBar setActive={setActive} active={active} />
         <Container fluid className="overflow-auto">
           <Row>
             <Col>

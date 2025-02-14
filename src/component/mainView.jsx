@@ -17,13 +17,27 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaReply } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
-function MainView({ active, username }) {
+function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
+  const userData = localStorage.getItem("user"); 
+  const parsedUser = userData ? JSON.parse(userData) : null;  
+  console.log(userData,'userData-=-=-');
+  const [llms, setLlms] = useState(llm);
+  console.log('----------llm', llms);
+  const [llmKey, setLlmKey] = useState(llmkey);
+  console.log('----------llmkey', llmKey);
+  const [llmModel, setLlmModel] = useState(llmmodel);
+  console.log('----------llmModel', llmModel);
+  const [breadCrumb, setBreadCrumb] = useState(breadcrumb);
+  console.log('----------breadCrumb', breadCrumb);
+  const [headerText, setHeaderText] = useState(headertext);
+  console.log('----------headerText', headerText);
   const [aiModel, setModel] = useState(active);
   const [programmingLanguage, setLanguage] = useState('');
+  const [conversationId, setConversationId] = useState(0); 
   const [phase, setPhase] = useState("code");
   const [promptCommand, setPrompt] = useState("");
   const [referenceCode, setReference] = useState("");
-  const [userName, setUserName] = useState(username);
+  const [userName, setUserName] = useState(parsedUser?.userName);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesRef = useRef(null);
@@ -147,11 +161,13 @@ function MainView({ active, username }) {
     }
   };
 
-  const handleReplyClick = ({ sender, text }) => {
-    setReplyText(text)
+  const handleReplyClick = ({ sender, text,chatid }) => {
+    setReplyText(text);
+    setConversationId(chatid);
   };
   const handleCloseClick = () => {
     setReplyText(null)
+    setConversationId(0);
   };
 
   const fetchSuggestions = async (query) => {
@@ -161,7 +177,7 @@ function MainView({ active, username }) {
         `${config.apiBaseUrl}chat/autocomplete?query=${query}`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json", aiModel: aiModel },
+          headers: { "Content-Type": "application/json", aiModel: llmKey },
         }
       );
       const result = await response.json();
@@ -341,7 +357,7 @@ function MainView({ active, username }) {
                     data-tooltip-id="my-tooltip"
                     data-tooltip-content="Reply"
                     data-tooltip-place="top"
-                    onClick={() => handleReplyClick({ sender, text })}
+                    onClick={() => handleReplyClick({ sender, text,chatid })}
                     style={{ cursor: "pointer" }}
                   />
                 </>
@@ -475,14 +491,14 @@ function MainView({ active, username }) {
     //setPrompt('');
     setReference("");
     console.log("History Loading1111:");
-    console.log('aiModel', aiModel)
+    console.log('aiModel', llmKey)
     try {
       setIsLoading(true);
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          aiModel: aiModel,
+          aiModel: llmKey,
           userName: userName,
           startDate: start.toDateString(),
           endDate: end.toDateString(),
@@ -544,15 +560,15 @@ function MainView({ active, username }) {
     //setPrompt("");
     setReference("");
     console.log("History Loading----:", userName);
-    let modelName = active.replace('-', '|').replace(' ', '-').toLowerCase();
-    console.log("History Loading----:", modelName);
+    //let modelName = active.replace('-', '|').replace(' ', '-').toLowerCase();
+    console.log("History Loading----:", llmKey);
     try {
       setIsLoading(true);
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          aiModel: modelName,
+          aiModel: llmKey,
           userName: userName,
         },
       });
@@ -674,7 +690,7 @@ function MainView({ active, username }) {
     let text = ''
     let phase = ''
     console.log('aiModel', aiModel)
-    const llm = 'copilot';
+    const llm = llms;
 
     const model = aiModel[1].replace(" ", "-");
     if (replyText) {
@@ -773,12 +789,11 @@ function MainView({ active, username }) {
     }
 
     const reference = apiResponse ? apiResponse : referenceCode
-    const currentUser = "gabriel";
-    const selectedUser = "gabriel";
-    const selectedRole = "developer";
-    const conversationId = 0;
+    const currentUser = parsedUser?.userName;
+    const selectedUser = parsedUser?.userName;
+    const selectedRole = parsedUser?.roleName;    
     const phaseOptional = "";
-
+    
     const prompt = promptCommand;
     const data = {
       llm,
@@ -872,8 +887,11 @@ function MainView({ active, username }) {
     <div className="dashboard-content-inner overflow-auto container-fluid">
       <div className="dashboard-headline">
         <div className="row">
-          <div className="col-6">
-            <h3>{active}</h3>
+          <div className="col-6"style={{
+                  textAlign: "left",
+                  paddingLeft: "24px"
+                }}>
+          <h4>{headerText}</h4>
 
             {activeError ? (
               <p

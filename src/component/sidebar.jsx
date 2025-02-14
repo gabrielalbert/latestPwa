@@ -130,7 +130,7 @@ const SideNavbar = ({ active, setActive }) => {
               <ul onClick={handleLicensedClick}>
                 <li onClick={() => handleItemClick("Copilot-o1 mini")}>
                   <Link
-                    to="/copilot"
+                    to="/copilot-mini"
                     className={
                       active === "Copilot-o1 mini" ? "active" : "navigation"
                     }
@@ -173,7 +173,7 @@ const SideNavbar = ({ active, setActive }) => {
           </li>
 
           <li onClick={handleOpenSourceClick}>
-            <Link style={{ fontWeight: "600", fontStyle: 'italic' }}>
+          <Link style={{ fontWeight: "600", fontStyle: 'italic' }}>
               <TbBrandOpenSource className="sidebar-icons" />
               &nbsp; Open Source
             </Link>
@@ -193,7 +193,7 @@ const SideNavbar = ({ active, setActive }) => {
               <ul onClick={handleHuggingfaceClick}>
                 <li onClick={() => handleItemClick("CodeLlama/CodeLlama-34B-Instruct-hf")}>
                   <Link
-                    to="/code-llama"
+                    to="/hf-code-llama"
                     className={
                       active === "CodeLlama/CodeLlama-34B-Instruct-hf" ? "active" : "navigation"
                     }
@@ -203,7 +203,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
                 <li onClick={() => handleItemClick("Microsoft/Phi-3.5-mini-Instruct")}>
                   <Link
-                    to="/microsoft-phi"
+                    to="/hf-microsoft-phi"
                     className={
                       active === "Microsoft/Phi-3.5-mini-Instruct" ? "active" : "navigation"
                     }
@@ -213,7 +213,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
                 <li onClick={() => handleItemClick("Mistralai/Mistral-nemo-Instruct-2407")}>
                   <Link
-                    to="/mistral-nemo"
+                    to="/hf-mistral-nemo"
                     className={
                       active === "Mistralai/Mistral-nemo-Instruct-2407" ? "active" : "navigation"
                     }
@@ -223,7 +223,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
                 <li onClick={() => handleItemClick("Nousresearch/Hermes-3-Llama-3.1-8B")}>
                   <Link
-                    to="/nousresearch-hermes"
+                    to="/hf-nousresearch-hermes"
                     className={
                       active === "Nousresearch/Hermes-3-Llama-3.1-8B" ? "active" : "navigation"
                     }
