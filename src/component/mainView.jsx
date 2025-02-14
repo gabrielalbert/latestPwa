@@ -692,7 +692,7 @@ function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
     console.log('aiModel', aiModel)
     const llm = llms;
 
-    const model = aiModel[1].replace(" ", "-");
+    const model = llmModel;
     if (replyText) {
       if (promptCommand.length == 0) {
         setError('Please enter prompt');
