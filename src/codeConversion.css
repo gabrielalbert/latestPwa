@@ -1,0 +1,200 @@
+.App {
+	text-align: center;
+	min-height: 100vh;
+	position: relative;
+	top: 0;
+	bottom: 0;
+    width:100%;
+   
+  }
+
+  .unit_button{
+    height: 40px;
+    border-radius: 25px;
+  }
+.main-container{
+   
+    min-height: 100vh;
+    /* overflow: hidden; */
+}
+
+.table-containers{
+    overflow-x: auto;
+    border-radius: 25px;
+    border: 2px solid #e6e6e6;
+}
+
+
+.unittest-container{
+    display:flex;
+    float: left;
+    /* padding-left: 20px; */
+    min-height: 100vh;
+    margin:0;
+    padding: 20px;
+    flex-grow: 1;
+
+    overflow: auto;
+   
+}
+#root{
+    flex:1;
+    min-height: 100vh;
+    height:100%;
+}
+/* .upload-container{
+    width:auto;
+    margin:auto;
+    text-align:center;
+    background: lightgrey;
+    padding:30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(128, 128,128, 0.5);    
+    
+} */
+/* .drop-zone{
+    border:1px dotted black;
+    padding:40px;
+    border-radius:10px;
+    background:#f9f9f9;
+    cursor:pointer;
+    transition:border-color 0.3s ease-in-out;
+} */
+.upload-text p{
+    margin:5px 0;
+    font-size:14px;
+}
+.browse-btn{
+    
+    background: white;
+   
+    padding:8px 12px;
+    cursor:pointer;
+   
+    font-size: 16px!important;
+    
+    letter-spacing: 0px!important;
+    background: #FFFFFF !important;
+    color: #1B3646!important;
+    border: 2px solid #888686 !important;
+    border-radius: 4px!important;
+    opacity: 1;
+    border-radius:10px;
+
+}
+.dropdown {
+width:250px !important;
+position:relative;
+max-height:50px;
+border-radius:20px;
+}
+.button{
+    min-width:100px;
+    padding:10px;
+    border-radius:10px;
+}
+
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    background: #EAEAEA;
+    border-radius:20px;
+    
+}
+.td{
+    padding:8px;
+    text-align:left;
+    border-bottom:1px solid grey;
+    
+}
+.th{
+    font-weight:bold;
+    
+    padding:8px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+}
+tr{
+    border-radius:10px;
+}
+
+
+.heading{
+    float: left;
+    padding-left: 20px;
+}
+.file-uploader{
+    background: #eaeaea;
+    padding-bottom: 25px;
+    width: auto;
+    margin-left: 20px;
+}
+     
+.file-select{
+    background: #eaeaea;
+    padding-bottom: 12px;
+    width: 55%;
+    margin-left: 20px;
+}
+.file-name{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+     
+     
+.fileUpload{
+    background-color: #ffff;
+    border: 1px dashed #CCD0DD;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;  
+    width:92%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    margin-left: 40px;
+    padding:40px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:border-color 0.3s ease-in-out;
+    }
+     
+    .fileBrowser{
+        /* background-color: #dcd7d7;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        margin-left: auto;
+        width:auto; */
+
+        width:auto;
+        margin:auto;
+        text-align:center;
+        background: lightgrey;
+        padding:30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(128, 128,128, 0.5);   
+    }
+     
+    .Browse {
+        font-size: 16px!important;
+        font-family: OpenSans-Regular!important;
+        letter-spacing: 0px!important;
+        background: #FFFFFF !important;
+        color: #1B3646!important;
+        border: 2px solid #888686 !important;
+        border-radius: 4px!important;
+        opacity: 1;
+    }
+     
+    .action-icons:hover{
+        color: white;
+        background-color: red;
+        border-radius: 15px;
+    }
+
+    .css-13cymwt-control{
+        border-radius: 15px;
+    }

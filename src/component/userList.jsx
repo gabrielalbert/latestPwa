@@ -4,22 +4,15 @@ import Loader from "./loader";
 import NavBar from "../component/navBar";
 import SideBar from "../component/sidebar";
 import "../UserList.css"; // Import the external CSS file
-import { useNavigate } from "react-router-dom";
 import {
-  MdDriveFileRenameOutline,
-  MdOutlineMailOutline,
   MdDelete,
 } from "react-icons/md";
-import { GrUserManager } from "react-icons/gr";
 import { FaEdit } from "react-icons/fa";
-import { TbLockPassword, TbMessageReport } from "react-icons/tb";
-import { AiOutlineProfile } from "react-icons/ai";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { toast, ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CircleAvatar from "./circleAvatar";
 import config from "../config"; // Adjust the path as necessary
 
 const UserListPage = () => {
@@ -37,7 +30,7 @@ const UserListPage = () => {
   const [managerList, setManagerList] = useState([]);
   const [userNameError, setUserNameError] = useState("");
   const [isValidating, setIsValidating] = useState(false);
-  const [canCreateUser, setCanCreateUser] = useState(true)
+  const [canCreateUser, setCanCreateUser] = useState(true);
 
   const [formData, setFormData] = useState({
     userName: "",
@@ -57,12 +50,12 @@ const UserListPage = () => {
       const response = await axios.get(
         `${config.apiBaseUrl}user/validate?username=${userName}`
       );
-      if (response.data ===false) {
+      if (response.data === false) {
         setUserNameError("");
-        setCanCreateUser(true)
+        setCanCreateUser(true);
       } else {
         setUserNameError("This Username is already taken.");
-        setCanCreateUser(false)
+        setCanCreateUser(false);
       }
     } catch (error) {
       console.error("Error", error);
@@ -195,9 +188,7 @@ const UserListPage = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(
-        `${config.apiBaseUrl}user/delete/${userId}`
-      );
+      await axios.delete(`${config.apiBaseUrl}user/delete/${userId}`);
       const updatedUsers = filteredUsers.filter(
         (user) => user.userId !== userId
       );
@@ -233,10 +224,7 @@ const UserListPage = () => {
       if (modalMode === "create") {
         const payload = { userId: 0, ...formData };
         // Call Create API
-        await axios.post(
-          `${config.apiBaseUrl}user/create`,
-          payload
-        );
+        await axios.post(`${config.apiBaseUrl}user/create`, payload);
         toast.success("User created successfully!", {
           position: "top-right",
           autoClose: 2000,
@@ -251,10 +239,7 @@ const UserListPage = () => {
       } else if (modalMode === "edit" && selectedUserId) {
         // Call Edit API
         const payload = { userId: selectedUserId, ...formData };
-        await axios.post(
-          `${config.apiBaseUrl}user/update`,
-          payload
-        );
+        await axios.post(`${config.apiBaseUrl}user/update`, payload);
         toast.success("User updated successfully!", {
           position: "top-right",
           autoClose: 2000,
@@ -277,9 +262,7 @@ const UserListPage = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get(
-          `${config.apiBaseUrl}masters/roles`
-        );
+        const response = await axios.get(`${config.apiBaseUrl}masters/roles`);
         setRoles(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -293,9 +276,7 @@ const UserListPage = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${config.apiBaseUrl}user/list`
-      );
+      const response = await axios.get(`${config.apiBaseUrl}user/list`);
       setUsers(response.data);
       setFilteredUsers(response.data);
     } catch (error) {
@@ -306,11 +287,10 @@ const UserListPage = () => {
   };
   // Fetch users on component mount
 
-
   useEffect(() => {
-    fetchUsers()
-  }, [])
-  
+    fetchUsers();
+  }, []);
+
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
@@ -364,82 +344,115 @@ const UserListPage = () => {
             <div class="col-xl-12">
               <div class="dashboard-box margin-top-0">
                 <div class="headline">
-                  <h3 className="text-start">
-                    Users
-                  </h3>
+                  <h3 className="text-start">Users</h3>
                 </div>
                 {loading ? (
                   <Loader />
                 ) : filteredUsers.length > 0 ? (
-                  <ul class="dashboard-box-list list-item">
-                    {filteredUsers.map((item, index) => (
-                      <li key={index}>
-                        <div class="job-listing">
-                          <div class="job-listing-details">
-                            <a href="#" class="job-listing-company-logo">
-                            <CircleAvatar name={item?.displayName} />
-                              {/* <img src="/user-avatar-small-01.jpg" alt="" /> */}
-                            </a>
-
-                            <div
-                              class="job-listing-description"
-                              // style={{ marginLeft: "-5%" }}
-                            >
-                              <span className="list-header text-start">
-                                {item?.displayName} <span class="pill-badge">{item?.userName}</span>
-                              </span>
-                              <br />
-                              <span className="text-start">{item.roleName || "N/A"}</span>
-                              &nbsp; &nbsp;
-                              <span class="dashboard-status-button blue">
-                                {item.email || "N/A"}
-                              </span>
-                              <br />
-                              <span class="job-listing-title text-start">
-                                <TbLockPassword />{" "}
-                                {"*".repeat(item.password.length) || "N/A"}
-                              </span>
-                              &nbsp; &nbsp;
-                              <span class="dashboard-status-button blue">
-                                <GrUserManager />{" "}
-                                {getManagerName(item.reportingId)}
-                              </span>
-                              &nbsp; &nbsp;
-                              <span>
-                                <TbMessageReport /> {item.reportingTo || "N/A"}
-                              </span>
+                  <div className="table_wrapper">
+                    <table>
+                      <tr>
+                        <th>Display Name</th>
+                        <th>Role Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Reporter Id</th>
+                        <th>Reporting To</th>
+                        <th>Actions</th>
+                      </tr>
+                      {filteredUsers.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.displayName}</td>
+                          <td>{item.roleName || "N/A"}</td>
+                          <td>{item.email || "N/A"}</td>
+                          <td>{"*".repeat(item.password.length) || "N/A"}</td>
+                          <td>{getManagerName(item.reportingId)}</td>
+                          <td>{item.reportingTo || "N/A"}</td>
+                          <td>
+                            <div>
+                              <FaEdit
+                                size={20}
+                                onClick={() => openEditModal(item.userId)}
+                              />
+                              <MdDelete
+                                size={20}
+                                onClick={() => handleDelete(item.userId)}
+                              />
                             </div>
-                          </div>
-                        </div>
-
-                        <div class="buttons-to-right">
-                          <div className="d-flex">
-                            <FaEdit
-                              size={20}
-                              onClick={() => openEditModal(item.userId)}
-                            />
-                            <MdDelete
-                              size={20}
-                              onClick={() => handleDelete(item.userId)}
-                            />
-                          </div>
-                          {/* <div className="button red ripple-effect ico delete">
-                            <MdDelete size={20}/>
-                          </div> */}
-                        </div>
-                        {/* <div class="remove-button">
-                            <div className='remove-button tooltip'>
-                              <a class="button gray ripple-effect ico" data-tippy-placement="top"><i class="icon-feather-trash-2" title="Remove" onClick={()=>handleToggle(item._id)}></i></a>
-                              <span className='tooltiptext'>Remove</span>
-                            </div>
-                            </div> */}
-                      </li>
-                    ))}
-                  </ul>
+                          </td>
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
                 ) : (
-                  <ul class="dashboard-box-list no-data">
-                    <span>No Data Found</span>
-                  </ul>
+                  // <ul class="dashboard-box-list list-item">
+                  //   {filteredUsers.map((item, index) => (
+                  //     <li key={index}>
+                  //       <div class="job-listing">
+                  //         <div class="job-listing-details">
+                  //           <a href="#" class="job-listing-company-logo">
+                  //           <CircleAvatar name={item?.displayName} />
+                  //             {/* <img src="/user-avatar-small-01.jpg" alt="" /> */}
+                  //           </a>
+
+                  //           <div
+                  //             class="job-listing-description"
+                  //             // style={{ marginLeft: "-5%" }}
+                  //           >
+                  //             <span className="list-header text-start">
+                  //               {item?.displayName} <span class="pill-badge">{item?.userName}</span>
+                  //             </span>
+                  //             <br />
+                  //             <span className="text-start">{item.roleName || "N/A"}</span>
+                  //             &nbsp; &nbsp;
+                  //             <span class="dashboard-status-button blue">
+                  //               {item.email || "N/A"}
+                  //             </span>
+                  //             <br />
+                  //             <span class="job-listing-title text-start">
+                  //               <TbLockPassword />{" "}
+                  //               {"*".repeat(item.password.length) || "N/A"}
+                  //             </span>
+                  //             &nbsp; &nbsp;
+                  //             <span class="dashboard-status-button blue">
+                  //               <GrUserManager />{" "}
+                  //               {getManagerName(item.reportingId)}
+                  //             </span>
+                  //             &nbsp; &nbsp;
+                  //             <span>
+                  //               <TbMessageReport /> {item.reportingTo || "N/A"}
+                  //             </span>
+                  //           </div>
+                  //         </div>
+                  //       </div>
+
+                  //       <div class="buttons-to-right">
+                  //         <div className="d-flex">
+                  //           <FaEdit
+                  //             size={20}
+                  //             onClick={() => openEditModal(item.userId)}
+                  //           />
+                  //           <MdDelete
+                  //             size={20}
+                  //             onClick={() => handleDelete(item.userId)}
+                  //           />
+                  //         </div>
+                  //         {/* <div className="button red ripple-effect ico delete">
+                  //           <MdDelete size={20}/>
+                  //         </div> */}
+                  //       </div>
+                  //       {/* <div class="remove-button">
+                  //           <div className='remove-button tooltip'>
+                  //             <a class="button gray ripple-effect ico" data-tippy-placement="top"><i class="icon-feather-trash-2" title="Remove" onClick={()=>handleToggle(item._id)}></i></a>
+                  //             <span className='tooltiptext'>Remove</span>
+                  //           </div>
+                  //           </div> */}
+                  //     </li>
+                  //   ))}
+                  // </ul>
+                  <tr className="dashboard-box-list no-data">
+                    <td className="text-center">No Data Found</td>
+                  </tr>
                 )}
               </div>
             </div>
@@ -469,7 +482,7 @@ const UserListPage = () => {
                 onChange={handleUsernameChange}
                 isInvalid={!!userNameError}
               />
-              <br/>
+              <br />
               <Form.Text className="text-danger">{userNameError}</Form.Text>
             </Form.Group>
             <Form.Group
@@ -585,9 +598,13 @@ const UserListPage = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button> 
-          <Button variant="primary" onClick={handleSave} disabled={userNameError || isValidating || !canCreateUser}>
-            {isValidating ? 'Validating...' : 'Save Changes'}
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSave}
+            disabled={userNameError || isValidating || !canCreateUser}
+          >
+            {isValidating ? "Validating..." : "Save Changes"}
           </Button>
         </Modal.Footer>
       </Modal>

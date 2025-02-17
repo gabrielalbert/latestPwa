@@ -17,9 +17,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaReply } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
-function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
+function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}) {
   const userData = localStorage.getItem("user"); 
-  const parsedUser = userData ? JSON.parse(userData) : null;  
+  const parsedUser = userData ? JSON.parse(userData) : null; 
   console.log(userData,'userData-=-=-');
   const [llms, setLlms] = useState(llm);
   console.log('----------llm', llms);
@@ -31,13 +31,13 @@ function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
   console.log('----------breadCrumb', breadCrumb);
   const [headerText, setHeaderText] = useState(headertext);
   console.log('----------headerText', headerText);
+  const [conversationId, setConversationId] = useState(0);
   const [aiModel, setModel] = useState(active);
   const [programmingLanguage, setLanguage] = useState('');
-  const [conversationId, setConversationId] = useState(0); 
   const [phase, setPhase] = useState("code");
   const [promptCommand, setPrompt] = useState("");
   const [referenceCode, setReference] = useState("");
-  const [userName, setUserName] = useState(parsedUser?.userName);
+  const [userName, setUserName] = useState(username);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesRef = useRef(null);
@@ -166,7 +166,7 @@ function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
     setConversationId(chatid);
   };
   const handleCloseClick = () => {
-    setReplyText(null)
+    setReplyText(null);
     setConversationId(0);
   };
 
@@ -792,8 +792,9 @@ function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
     const currentUser = parsedUser?.userName;
     const selectedUser = parsedUser?.userName;
     const selectedRole = parsedUser?.roleName;    
+    const conversationId = 0;
     const phaseOptional = "";
-    
+
     const prompt = promptCommand;
     const data = {
       llm,
@@ -883,11 +884,13 @@ function MainView({ active, llmmodel, llm,llmkey,breadcrumb,headertext }) {
     setIsEditing(false);
   };
 
+  console.log(active,'active===-=-=')
+
   return (
     <div className="dashboard-content-inner overflow-auto container-fluid">
       <div className="dashboard-headline">
         <div className="row">
-          <div className="col-6"style={{
+        <div className="col-6"style={{
                   textAlign: "left",
                   paddingLeft: "24px"
                 }}>

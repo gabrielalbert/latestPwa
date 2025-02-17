@@ -32,7 +32,7 @@ function Offerings() {
                 </div>
               </a>
 
-              <a href="#" className="category-box">
+              <a href="/unit-test" className="category-box">
                 <div className="category-box-icon">
                   <GrDocumentTest />
                 </div>
@@ -58,7 +58,7 @@ function Offerings() {
                   </p>
                 </div>
               </a>
-              <a href="#" className="category-box">
+              <a href="/code-conversion" className="category-box">
                 <div className="category-box-icon">
                   <FaArrowRightArrowLeft />
                 </div>

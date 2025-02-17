@@ -7,7 +7,7 @@ import { MdOutlineCompareArrows } from "react-icons/md";
 import "../index.css";
 
 const OurServices = () => {
-  const [active, setActive] = useState("Dashboard");
+  const [active, setActive] = useState("Offerings");
   const [userName, setUserName] = useState("Gabriel");
 
   const cards = Array.from({ length: 18 }, (_, index) => ({

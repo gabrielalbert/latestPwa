@@ -9,7 +9,9 @@ import { BrowserRouter as Router,Route,Routes,Link, useLocation } from "react-ro
 
 function Pages({ aimodel,llmmodel, llm,llmkey,breadcrumb,headertext }) {
   const [active, setActive] = useState(aimodel);
-  console.log(aimodel,'aimodel-=-=-=');
+  const [userName, setUserName] = useState("gabriel") ; 
+  
+
   // useEffect(() => {
   //   window.location.reload()
   // }, [location.pathname])
@@ -20,8 +22,8 @@ function Pages({ aimodel,llmmodel, llm,llmkey,breadcrumb,headertext }) {
     <div className="App">
       <NavBar />
       <div className='d-flex dashboardPage'>
-        <SideBar setActive={setActive} active={active} />
-        <MainView active={active} llmmodel={llmmodel} llm={llm} llmkey={llmkey} breadcrumb={breadcrumb} headertext={headertext} />
+        <SideBar setActive={setActive} active={active} userName={userName} />
+        <MainView active={active} llmmodel={llmmodel} llm={llm} llmkey={llmkey} breadcrumb={breadcrumb} headertext={headertext} username={userName} />
       </div>
       {/* <Footer /> */}
     </div>

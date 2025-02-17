@@ -20,6 +20,8 @@ const SideNavbar = ({ active, setActive }) => {
     setActive(item);
   };
 
+  console.log(active, "active===---");
+
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isLicensedOpen, setIsLicensedOpen] = useState(false);
   const [isOpenSourceOpen, setIsOpenSourceOpen] = useState(false);
@@ -38,7 +40,7 @@ const SideNavbar = ({ active, setActive }) => {
     setIsOpenSourceOpen((prev) => !prev); // Toggle the submenu visibility
   };
   const handleHuggingfaceClick = () => {
-    console.log('=================')
+    console.log("=================");
     setIsOpenSourceOpen(false);
     setIsHuggingfaceOpen((prev) => !prev); // Toggle the submenu visibility
   };
@@ -71,13 +73,12 @@ const SideNavbar = ({ active, setActive }) => {
 
   return (
     <div className="side-navbar">
-      
       <nav>
         <ul data-submenu-title="Home">
           <li
             className={active === "Dashboard" ? "active" : "navigation"}
             onClick={() => handleItemClick("Dashboard")}
-            style={{fontStyle: 'italic', fontWeight: "600"}}
+            style={{ fontStyle: "italic", fontWeight: "600" }}
           >
             <Link
               to="/"
@@ -91,8 +92,7 @@ const SideNavbar = ({ active, setActive }) => {
           <li
             className={active === "Services" ? "active" : "navigation"}
             onClick={() => handleItemClick("Services")}
-            style={{fontStyle: 'italic', fontWeight: "600"}}
-
+            style={{ fontStyle: "italic", fontWeight: "600" }}
           >
             <Link
               to="/services"
@@ -132,7 +132,7 @@ const SideNavbar = ({ active, setActive }) => {
                   <Link
                     to="/copilot-mini"
                     className={
-                      active === "Copilot-o1 mini" ? "active" : "navigation"
+                      active === "Copilot-o1-mini" ? "active" : "navigation"
                     }
                   >
                     Copilot-o1 mini
@@ -142,38 +142,41 @@ const SideNavbar = ({ active, setActive }) => {
                   <Link
                     to="/copilot-preview"
                     className={
-                      active === "Copilot-o1 Preview" ? "active" : "navigation"
+                      active === "Copilot-o1-Preview" ? "active" : "navigation"
                     }
                   >
                     Copilot-o1 Preview
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("Copilot-Gpt-4o")}>
+                  <Link
+                    to="/copilot-gpt"
+                    className={
+                      active === "Copilot-Gpt-4o" ? "active" : "navigation"
+                    }
+                  >
+                    Copilot-Gpt-4o
                   </Link>
                 </li>
                 <li onClick={() => handleItemClick("Gemini-Gemini 1.5")}>
                   <Link
                     to="/gemini-ai"
                     className={
-                      active === "Gemini-Gemini 1.5" ? "active" : "navigation"
+                      active === "Gemini-Gemini 1.5"
+                        ? "active"
+                        : "navigation"
                     }
                   >
                     Gemini-Gemini 1.5
                   </Link>
                 </li>
-                <li onClick={() => handleItemClick("OpenAi-gpt")}>
-                  <Link
-                    to="/open-ai-gpt"
-                    className={
-                      active === "OpenAi-gpt" ? "active" : "navigation"
-                    }
-                  >
-                    OpenAi-gpt
-                  </Link>
-                </li>
+                
               </ul>
             )}
           </li>
 
           <li onClick={handleOpenSourceClick}>
-          <Link style={{ fontWeight: "600", fontStyle: 'italic' }}>
+            <Link style={{ fontWeight: "600", fontStyle: "italic" }}>
               <TbBrandOpenSource className="sidebar-icons" />
               &nbsp; Open Source
             </Link>
@@ -181,8 +184,9 @@ const SideNavbar = ({ active, setActive }) => {
             {isOpenSourceOpen && ( // Render submenu only when isLicensedOpen is true
               <ul onClick={handleHuggingfaceClick}>
                 <li onClick={() => handleItemClick("Hugging face")}>
-                  <Link style={{ fontWeight: "600" }}
-                    to="#"
+                  <Link
+                    style={{ fontWeight: "600" }}
+                    to=""
                     className={
                       active === "Hugging face" ? "active" : "navigation"
                     }
@@ -190,52 +194,79 @@ const SideNavbar = ({ active, setActive }) => {
                     Hugging face
                   </Link>
                   {isHuggingfaceOpen && ( // Render submenu only when isLicensedOpen is true
-              <ul onClick={handleHuggingfaceClick}>
-                <li onClick={() => handleItemClick("CodeLlama/CodeLlama-34B-Instruct-hf")}>
-                  <Link
-                    to="/hf-code-llama"
-                    className={
-                      active === "CodeLlama/CodeLlama-34B-Instruct-hf" ? "active" : "navigation"
-                    }
-                  >
-                    CodeLlama/CodeLlama-34B-Instruct-hf
-                  </Link>
-                </li>
-                <li onClick={() => handleItemClick("Microsoft/Phi-3.5-mini-Instruct")}>
-                  <Link
-                    to="/hf-microsoft-phi"
-                    className={
-                      active === "Microsoft/Phi-3.5-mini-Instruct" ? "active" : "navigation"
-                    }
-                  >
-                    Microsoft/Phi-3.5-mini-Instruct
-                  </Link>
-                </li>
-                <li onClick={() => handleItemClick("Mistralai/Mistral-nemo-Instruct-2407")}>
-                  <Link
-                    to="/hf-mistral-nemo"
-                    className={
-                      active === "Mistralai/Mistral-nemo-Instruct-2407" ? "active" : "navigation"
-                    }
-                  >
-                    Mistralai/Mistral-nemo-Instruct-2407
-                  </Link>
-                </li>
-                <li onClick={() => handleItemClick("Nousresearch/Hermes-3-Llama-3.1-8B")}>
-                  <Link
-                    to="/hf-nousresearch-hermes"
-                    className={
-                      active === "Nousresearch/Hermes-3-Llama-3.1-8B" ? "active" : "navigation"
-                    }
-                  >
-                    Nousresearch/Hermes-3-Llama-3.1-8B
-                  </Link>
-                </li>
-              </ul>
-            )}
+                    <ul onClick={handleHuggingfaceClick}>
+                      <li
+                        onClick={() =>
+                          handleItemClick("CodeLlama/CodeLlama-34B-Instruct-hf")
+                        }
+                      >
+                        <Link
+                          to="/hf-code-llama"
+                          className={
+                            active === "CodeLlama/CodeLlama-34B-Instruct-hf"
+                              ? "active"
+                              : "navigation"
+                          }
+                        >
+                          CodeLlama/CodeLlama-34B-Instruct-hf
+                        </Link>
+                      </li>
+                      <li
+                        onClick={() =>
+                          handleItemClick("Microsoft/Phi-3.5-mini-Instruct")
+                        }
+                      >
+                        <Link
+                          to="/hf-microsoft-phi"
+                          className={
+                            active === "Microsoft/Phi-3.5-mini-Instruct"
+                              ? "active"
+                              : "navigation"
+                          }
+                        >
+                          Microsoft/Phi-3.5-mini-Instruct
+                        </Link>
+                      </li>
+                      <li
+                        onClick={() =>
+                          handleItemClick(
+                            "Mistralai/Mistral-nemo-Instruct-2407"
+                          )
+                        }
+                      >
+                        <Link
+                          to="/hf-mistral-nemo"
+                          className={
+                            active === "Mistralai/Mistral-nemo-Instruct-2407"
+                              ? "active"
+                              : "navigation"
+                          }
+                        >
+                          Mistralai/Mistral-nemo-Instruct-2407
+                        </Link>
+                      </li>
+                      <li
+                        onClick={() =>
+                          handleItemClick("Nousresearch/Hermes-3-Llama-3.1-8B")
+                        }
+                      >
+                        <Link
+                          to="/hf-nousresearch-hermes"
+                          className={
+                            active === "Nousresearch/Hermes-3-Llama-3.1-8B"
+                              ? "active"
+                              : "navigation"
+                          }
+                        >
+                          Nousresearch/Hermes-3-Llama-3.1-8B
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
                 <li onClick={() => handleItemClick("Anthropic")}>
-                  <Link style={{ fontWeight: "600" }}
+                  <Link
+                    style={{ fontWeight: "600" }}
                     to="#"
                     className={active === "Anthropic" ? "active" : "navigation"}
                   >
@@ -243,7 +274,8 @@ const SideNavbar = ({ active, setActive }) => {
                   </Link>
                 </li>
                 <li onClick={() => handleItemClick("Meta")}>
-                  <Link style={{ fontWeight: "600" }}
+                  <Link
+                    style={{ fontWeight: "600" }}
                     to="#"
                     className={active === "Meta" ? "active" : "navigation"}
                   >
@@ -319,9 +351,10 @@ const SideNavbar = ({ active, setActive }) => {
           </li>
         </ul> */}
         <ul data-submenu-title="Settings">
-          <li onClick={() => handleItemClick("Users")}
-            style={{fontStyle: 'italic', fontWeight: "600"}}
-            >
+          <li
+            onClick={() => handleItemClick("Users")}
+            style={{ fontStyle: "italic", fontWeight: "600" }}
+          >
             <Link to="/user-list">
               <FaUsers className="sidebar-icons" /> &nbsp; Users
             </Link>

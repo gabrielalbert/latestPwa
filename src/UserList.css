@@ -13,6 +13,8 @@
 .search-bar {
   display: block;
   width: 25%;
+  border-radius: 12px;
+  border: 1px solid gray;
 }
 .search-container {
   display: flex;
@@ -71,7 +73,7 @@
 
 .dashboard-box {
   display: block;
-  border-radius: 4px;
+  border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: relative;
@@ -218,3 +220,29 @@ ul.dashboard-box-list > li {
 	padding: 35px;
 	padding-bottom: 32px;
 }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: center;
+  padding: 8px;
+}
+
+th{
+  background-color: #e6ebe7;
+}
+
+.table_wrapper{
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  height: 100vh;
+  scrollbar-width: thin;
+}
+
+tr:nth-child(odd){background-color: #e3e3e3}
