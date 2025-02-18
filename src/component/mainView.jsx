@@ -684,8 +684,8 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let language = ''
-    let apiResponse = ''
+    let language = '';
+    let apiResponse = null;
     let aiModel = active.split("-")
     let text = ''
     let phase = ''
@@ -732,7 +732,9 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
             body: formData,
           });
 
-          apiResponse = await response.json();
+          const apiResponseData = await response.json();
+          apiResponse = apiResponseData.fileName;
+          
           console.log("File name returned from API", apiResponse)
         } catch (error) {
 
@@ -788,7 +790,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       }
     }
 
-    const reference = apiResponse ? JSON.parse(apiResponse)?.fileName : referenceCode
+    const reference = apiResponse ? apiResponse : referenceCode
     const currentUser = parsedUser?.userName;
     const selectedUser = parsedUser?.userName;
     const selectedRole = parsedUser?.roleName;    
@@ -808,7 +810,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       selectedUser,
       selectedRole,
       conversationId,
-      fileReference: false
+      fileReference: reference? true:false
     };
     console.log("Submitting data:", data);
     const input =
