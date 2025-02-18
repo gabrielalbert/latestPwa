@@ -787,8 +787,8 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         text = secondInput.replace("/", "");
       }
     }
-
-    const reference = apiResponse ? apiResponse : referenceCode
+let apiResponseFileName = JSON.parse(apiResponse)?.fileName;
+    const reference = apiResponseFileName ? apiResponseFileName : referenceCode
     const currentUser = parsedUser?.userName;
     const selectedUser = parsedUser?.userName;
     const selectedRole = parsedUser?.roleName;    
