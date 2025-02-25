@@ -17,26 +17,24 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaReply } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
+
 function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}) {
   const userData = localStorage.getItem("user"); 
   const parsedUser = userData ? JSON.parse(userData) : null; 
   console.log(userData,'userData-=-=-');
-  const [llms, setLlms] = useState(llm);
-  console.log('----------llm', llms);
+  const [llms, setLlms] = useState(llm);  
   const [llmKey, setLlmKey] = useState(llmkey);
-  console.log('----------llmkey', llmKey);
-  const [llmModel, setLlmModel] = useState(llmmodel);
-  console.log('----------llmModel', llmModel);
-  const [breadCrumb, setBreadCrumb] = useState(breadcrumb);
-  console.log('----------breadCrumb', breadCrumb);
-  const [headerText, setHeaderText] = useState(headertext);
-  console.log('----------headerText', headerText);
+  const [llmModel, setLlmModel] = useState(llmmodel);  
+  const [breadCrumb, setBreadCrumb] = useState(breadcrumb);  
+  const [headerText, setHeaderText] = useState(headertext);  
   const [conversationId, setConversationId] = useState(0);
+  const [phaseOptional,setPhaseOptional] = useState("");
   const [aiModel, setModel] = useState(active);
   const [programmingLanguage, setLanguage] = useState('');
   const [phase, setPhase] = useState("code");
   const [promptCommand, setPrompt] = useState("");
   const [referenceCode, setReference] = useState("");
+  const [fileReference, setFileReference] = useState(false);
   const [userName, setUserName] = useState(username);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -112,7 +110,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
     ],
     "/": ["java", "python", "c#","angular","angularjs","react","reactjs","typescript","reactnative","kotlin", "flutter", "android","php"],  };
   const location = useLocation();
-  const path = location.pathname;
+  //const path = location.pathname;
 
   const handleMouseEnter = (id) => setHoveredMessageId(id);
   const handleMouseLeave = () => {
@@ -181,7 +179,6 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         }
       );
       const result = await response.json();
-
       setSuggestions(result);
     } catch (error) {
       setIsLoading(false);
@@ -278,12 +275,6 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       }
     });
   };
-
-  // useEffect(() => {
-  //   setPrompt("");
-  //   setReference("");
-  //   setMessages([]);
-  // }, [path]);
 
   useEffect(() => {
     if (active == 'GitHub Copilot' || active == 'Google Gemini') {
@@ -490,10 +481,8 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
   const fetchMessageHistory = async (start, end) => {
     //setPrompt('');
     setReference("");
-    console.log("History Loading1111:");
-    console.log('aiModel', llmKey)
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
+    try {      
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
@@ -505,7 +494,6 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         },
       });
       const result = await response.json();
-      console.log("History fetching data:", result);
       setMessages([]);
       result?.map((msg) => {
         const mSender = msg.messageSender === "user" ? "user" : "bot";
@@ -527,8 +515,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       });
 
       setShowDatePicker(false);
-    } catch (error) {
-      setIsLoading(false);
+    } catch (error) {      
       console.error("Error fetching data:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -542,6 +529,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         },
       ]);
     } finally {
+      setIsLoading(false);
     }
     return messages.map((msg) => (
       <MessageBubbleInner
@@ -559,11 +547,9 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
     e.preventDefault();
     //setPrompt("");
     setReference("");
-    console.log("History Loading----:", userName);
+    setIsLoading(true);
     //let modelName = active.replace('-', '|').replace(' ', '-').toLowerCase();
-    console.log("History Loading----:", llmKey);
-    try {
-      setIsLoading(true);
+    try {      
       const response = await fetch(`${config.apiBaseUrl}chat/messages`, {
         method: "GET",
         headers: {
@@ -593,8 +579,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         ]);
         scrollToBottom();
       });
-    } catch (error) {
-      setIsLoading(false);
+    } catch (error) {      
       console.error("Error fetching data:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -608,6 +593,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         },
       ]);
     } finally {
+      setIsLoading(false);
     }
     return messages.map((msg) => (
       <MessageBubbleInner
@@ -689,9 +675,11 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
     let aiModel = active.split("-")
     let text = ''
     let phase = ''
-    console.log('aiModel', aiModel)
+    let phaseOptional = ''
+    console.log('aiModel', aiModel);
+    console.log('apiResponse', apiResponse);
     const llm = llms;
-
+    setFileReference(false);
     const model = llmModel;
     if (replyText) {
       if (promptCommand.length == 0) {
@@ -711,18 +699,16 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       while ((m = regex.exec(replyText)) !== null) {
         key.push(m[1]);
         value.push(m[2]);
-      }
+      }      
+      console.log('value0-0-0', value);
+      console.log('value0-osoospopos0-0', value[2]);
 
       language = value[0];
       phase = value[1];
       text = promptCommand
     }
-
-
     else {
-
       if (selectedFile) {
-
         const formData = new FormData();
         formData.append("fileInput", selectedFile);
         try {
@@ -733,7 +719,11 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
           });
 
           const apiResponseData = await response.json();
-          apiResponse = apiResponseData.fileName;
+          apiResponse = apiResponseData.fileName;          
+          setFileReference(true);
+          if(apiResponseData.error){
+            setFileReference(false);
+          }
           
           console.log("File name returned from API", apiResponse)
         } catch (error) {
@@ -777,51 +767,63 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
 
       firstInput = firstInput.split(" ");
       language = firstInput[0].replace("#", "");
-      console.log('----------language', language)
+      console.log('----------language', language);
       setLanguage(language)
       language = language.replace("-", " ");
       phase = firstInput[1].replace("@", "");
 
       phase = phase.replace("-", " ");
-
+      setPhaseOptional("");      
       text = secondInput;
-      if (phase == "convert") {
-        text = secondInput.replace("/", "");
+      console.log(secondInput,'----------secondInput');
+      if (phase === "convert") {        
+        text=secondInput.replace("/", ""); 
+        phaseOptional = text.split(" ")[0]; 
+        setPhaseOptional(phaseOptional);              
       }
+      console.log('----------phaseOptional', phaseOptional);
+      // if (phase === "convert") {        
+      //   setPhaseOptional(secondInput.replace("/", ""));        
+      // }
+      // else{
+      //   setPhaseOptional("");
+      //   text = secondInput;
+      // }
     }
 
-    const reference = apiResponse ? apiResponse : referenceCode
+    console.log(apiResponse,'----------apiResponse');
+    console.log(messages,'----------messages');
+    console.log(promptCommand,'----------promptCommand');
+    console.log(replyText,'----------replyText');
+
+
+    const reference = apiResponse ? apiResponse : referenceCode    
     const currentUser = parsedUser?.userName;
     const selectedUser = parsedUser?.userName;
     const selectedRole = parsedUser?.roleName;    
-    const conversationId = 0;
-    const phaseOptional = "";
-
-    const prompt = promptCommand;
+    
+    function cleanPrompt(prompt) {
+      return prompt.replace(/[#\/!@][^\s]+/g, "").trim();
+    }
+    
+    console.log(replyText,'----------replyText');    
+    const prompt = cleanPrompt(promptCommand);
     const data = {
       llm,
       model,
       language,
       phase,
       phaseOptional,
-      prompt: text,
+      prompt,
       reference,
       currentUser,
       selectedUser,
       selectedRole,
       conversationId,
-      fileReference: reference? true:false
+      fileReference
     };
     console.log("Submitting data:", data);
-    const input =
-      "Language: " +
-      language +
-      ", Phase: " +
-      phase +
-      ",	Prompt: " +
-      text +
-      ", Code: " +
-      referenceCode;
+    const input =   promptCommand +  referenceCode;
 
     const newMessage = {
       id: Date.now(),
@@ -832,6 +834,7 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
       chatid: 0,
     };
     setMessages([...messages, newMessage]);
+    
     setIsLoading(true);
     try {
       setIsLoading(true);
@@ -858,7 +861,9 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
         chatid: result.chatId,
       };
       setEditprompt(promptCommand)
-
+      setSelectedFile(null);
+      setFileReference(false);
+      
       setPrompt("");
       setReference("");
       console.log("Input fetching replyMessage:", replyMessage);
@@ -1148,7 +1153,6 @@ function MainView({ active, username,llmmodel, llm,llmkey,breadcrumb,headertext}
                   </div>
 
                 </div>
-
 
                 <div>
                   <div style={{ float: "left" }}>

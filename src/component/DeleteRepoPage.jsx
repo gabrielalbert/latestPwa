@@ -1,58 +1,114 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../component/navBar";
 import SideBar from "../component/sidebar";
 import config from "../config"; // Adjust the path as necessary
+import { Form, Table, Button, Modal } from "react-bootstrap";
+import axios from "axios";
 
 const DeleteRepoPage = () => {
-  const [selectUser, setselectUser] = useState("");
   const [active, setActive] = useState("Dashboard");
   const [userName, setUserName] = useState("Gabriel");
-  const [detailsDeleted,setDetailsDeleted]=useState(false);
+  const [repos, setRepos] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRepo, setSelectedRepo] = useState("");
 
-  const handleOnChange=(e)=>{
-    setselectUser(e.target.value);
-  }
-  const handleDeleteRepoCancel=(e)=>{
-    setselectUser("");
-    setDetailsDeleted(false);
-  }
-  const handleDeleteRepo = async (e) => {
-    try {
-        console.log(selectUser);
-        const response = await fetch(
-            `${config.apiBaseUrl}/repo/deleterepo?userid=${selectUser}`,
-            {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-          const result = await response.json();
-          setDetailsDeleted(true);
-          setselectUser("");
+  useEffect(() => {
+    axios
+      .get(`${config.apiBaseUrl}repo/summary`)
+      .then((response) => {
+       // console.log(response);
+       // console.log(response.data);
+        setRepos(response.data);
+      })
+      .catch((error) => console.error("Error fetching files:", error));
+  },[]);
 
-      console.log("Input fetching data:", result);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const fetchFiles = (repoName) => {
+    console.log(repoName);
+    axios
+      .get(`${config.apiBaseUrl}repo/${repoName}/files`)
+      .then((response) => {
+        console.log(response);
+       // console.log(response.data);
+        setFiles(response.data);
+        setSelectedRepo(repoName);
+        setShowModal(true);
+      })
+      .catch((error) => console.error("Error fetching files:", error));
   };
 
   return (
     <div className="App">
       <NavBar userName={userName} />
-      <div className="main-container" style={{ backgroundColor: "#EAEAEA",height:"-webkit-fill-available" }}>
+      <div
+        className="main-container"
+        style={{ backgroundColor: "#EAEAEA", height: "-webkit-fill-available" }}
+      >
         <SideBar setActive={setActive} active={active} userName={userName} />
         <div className="addrepository-container">
-          <h1 className="header">Delete Repository</h1>
-          <div className="container mt-4">
-            <label className="form-label">
-              Enter UserID:
-              <input type="text" onChange={handleOnChange} className="form-control" value={selectUser}></input>
-            </label>
-            <div className="mt-3">
-              <button onClick={handleDeleteRepo} className="btn btn-danger me-2">Delete</button>
-              <button onClick={handleDeleteRepoCancel} className="btn btn-primary">Cancel</button>
-            </div>
-            {detailsDeleted && <p className="mt-3">Details Deleted in DB</p>}
+          <div>            
+            <h3>Repository Summary</h3>
+            <Table stripped bordered hover>
+              <thead>
+                <tr>
+                  <th>Repository Name</th>
+                  <th>File Count</th>
+                  <th>Indexed</th>
+                </tr>
+              </thead>
+              <tbody>
+                {repos.map((repo) => (
+                  <tr key={repo.repoName}>
+                    <td>{repo.repoName}</td>
+                    <td>
+                      <Button
+                        variant="link"
+                        onClick={() => fetchFiles(repo.repoName)}
+                      >
+                        {repo.fileCount}
+                        {console.log(repo)}
+                      </Button>
+                    </td>
+                    <td>{repo.indexed.toString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Files in {selectedRepo} Repository</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Table stripped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Repository Name</th>
+                      <th>Original FileName</th>
+                      <th>Unique FileName</th>
+                      <th>Indexed</th>
+                      <th>Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {files.map((file) => (
+                      <tr key={file.uniqueFileName}>
+                        <td>{file.repoName}</td>
+                        <td>{file.originalFileName}</td>
+                        <td>{file.uniqueFileName}</td>
+                        <td>{file.indexed.toString()}</td>
+                        <td>{file.timestamp}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </div>
       </div>
