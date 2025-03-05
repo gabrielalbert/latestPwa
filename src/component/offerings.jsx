@@ -46,7 +46,7 @@ function Offerings() {
                 </div>
               </a>
 
-              <a href="#" className="category-box">
+              <a href="/layout-design" className="category-box">
                 <div className="category-box-icon">
                   <VscDebugConsole />
                 </div>
@@ -68,16 +68,15 @@ function Offerings() {
                   <p>AI models to ensure that your code is converted.</p>
                 </div>
               </a>
-              <a href="#" className="category-box">
+              <a href="/video-to-kt" className="category-box"> 
                 <div className="category-box-icon">
                   <FaDatabase />
                 </div>
                 {/* <div className="category-box-counter">612</div> */}
                 <div className="category-box-content">
-                  <h3>KE DB support</h3>
+                <h3>Video To KT Docs</h3>
                   <p>
-                    Intuitive Management of Knowledge and enhanced search via
-                    vector database
+                  To convert a video into a structured document like a Knowledge Transfer (KT) document using AI
                   </p>
                 </div>
               </a>

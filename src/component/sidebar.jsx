@@ -63,12 +63,14 @@ const SideNavbar = ({ active, setActive }) => {
     setIsRepositoryOpen(false);
   };
 
-  const handleGitHubCopilotClick = () => {
+  const handleGitHubCopilotClick = (item) => {
     console.log("handleGitHubCopilotClick");
+    setActive(item);
   };
 
-  const handleGoogleGeminiClick = () => {
+  const handleGoogleGeminiClick = (item) => {
     console.log("handleGoogleGeminiClick");
+    setActive(item);
   };
 
   return (
@@ -105,15 +107,28 @@ const SideNavbar = ({ active, setActive }) => {
           </li>
         </ul>
         <ul data-submenu-title="AI Assistant">
-          <li onClick={handleGitHubCopilotClick} style={{ textAlign: "left" }}>
-            <Link style={{ fontWeight: "600" }}>
+          <li style={{ textAlign: "left" }}
+          className={active === "Copilot CLI" ? "active" : "navigation"}
+          onClick={() => handleItemClick("Copilot CLI")}>
+          <Link
+              to="/copilot-cli"
+              style={{ fontWeight: "600" }}
+              className={active === "Copilot CLI" ? "active" : "navigation"}
+              onClick={() => handleItemClick("Copilot CLI")}
+            >            
               <SiGithubcopilot className="sidebar-icons" />
-              &nbsp; GitHub Copilot
+              &nbsp; Copilot CLI
             </Link>
           </li>
 
-          <li onClick={handleGoogleGeminiClick}>
-            <Link style={{ fontWeight: "600" }}>
+          <li style={{ textAlign: "left" }} className={active === "Google Gemini" ? "active" : "navigation"}
+            onClick={() => handleItemClick("Google Gemini")}>
+          <Link
+              to="/gemini-ai"
+              style={{ fontWeight: "600" }}
+              className={active === "Google Gemini" ? "active" : "navigation"}
+              onClick={() => handleItemClick("Google Gemini")}
+            >             
               <SiGooglegemini className="sidebar-icons" />
               &nbsp; Google Gemini
             </Link>
@@ -359,7 +374,16 @@ const SideNavbar = ({ active, setActive }) => {
               <FaUsers className="sidebar-icons" /> &nbsp; Users
             </Link>
           </li>
+
           <li onClick={handleRepositoryClick} style={{ textAlign: "left" }}>
+            <Link style={{ fontWeight: "600" }} to="/repo-page">
+              <RiGitRepositoryCommitsFill />
+              &nbsp; Repository
+            </Link>
+           
+          </li>
+
+          {/* <li onClick={handleRepositoryClick} style={{ textAlign: "left" }}>
             <Link style={{ fontWeight: "600" }}>
               <RiGitRepositoryCommitsFill />
               &nbsp; Repository
@@ -390,7 +414,7 @@ const SideNavbar = ({ active, setActive }) => {
                 </li>
               </ul>
             )}
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>

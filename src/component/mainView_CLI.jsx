@@ -19,7 +19,7 @@ import { FaReply } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
 
-function MainView({
+function MainViewCLI({
   active,
   username,
   llmmodel,
@@ -31,7 +31,8 @@ function MainView({
   const userData = localStorage.getItem("user");
   const parsedUser = userData ? JSON.parse(userData) : null;
   const [llms, setLlms] = useState(llm);
-  const [llmKey, setLlmKey] = useState(llmkey);
+  //const [llmKey, setLlmKey] = useState(llmkey);
+  const [llmKey, setLlmKey] = useState("copilot|cli");
   const [llmModel, setLlmModel] = useState(llmmodel);
   const [breadCrumb, setBreadCrumb] = useState(breadcrumb);
   const [headerText, setHeaderText] = useState(headertext);
@@ -328,7 +329,7 @@ function MainView({
   };
 
   useEffect(() => {
-    if (active == "GitHub Copilot") {
+    if (active == "GitHub Copilot" || active == "Google Gemini") {
       setSelectVisible(false);
     } else {
       setSelectVisible(true);
@@ -802,7 +803,8 @@ function MainView({
     console.log("aiModel", aiModel);
     console.log("apiResponse", apiResponse);
     const llm = llms;
-    const model = llmModel;
+    //const model = llmModel;
+    const model = "o1-mini";
 
     // firstInput = firstInput.split(" ");
 
@@ -878,12 +880,12 @@ function MainView({
         setError("");
       }
 
-      if (selectedValue.length == 0) {
+      /**if (selectedValue.length == 0) {
         setSelectError(true);
         return;
       } else {
         setSelectError(false);
-      }
+      }**/
 
       //firstInput = active.split("-");
       if (active == "Copilot") {
@@ -910,7 +912,7 @@ function MainView({
     const currentUser = parsedUser?.userName;
     const selectedUser = parsedUser?.userName;
     const selectedRole = parsedUser?.roleName;
-    //const conversationId = 0;
+    const conversationId = 0;
     const phaseOptional = "";
 
     function cleanPrompt(prompt) {
@@ -970,7 +972,7 @@ function MainView({
     console.log(newMessage, "newMessage000-0-0");
     console.log(messages, "messages010010-=-");
     console.log(chatids, "chatids-=-=-=");
-    console.log(selectedValue,"User Selected reponame----");
+    console.log(selectedValue, "User Selected reponame----");
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     console.log(messages, "dhdhhdisjkjsjkjsk");
@@ -1054,7 +1056,7 @@ function MainView({
     }
   };
 
-  console.log(extractedLanguage, "aoaooaoao111");
+  console.log(extractedLanguage, "aoaooaoao");
 
   const handleBlur = () => {
     setIsEditing(false);
@@ -1335,28 +1337,6 @@ function MainView({
                         }}
                         alt="Send"
                       />
-                      {selectVisible ? (
-                        <select
-                          classname="form-select"
-                          onChange={handleSelectChange}
-                          aria-label="Default select example"
-                          style={{
-                            marginLeft: "5px",
-                            transform: "translateY(-120%)",
-                            width: "70%",
-                            float: "right",
-                          }}
-                        >
-                          <option selected>Select Repository</option>
-                          {getOptions()}
-
-                          {/* <option value="copilot|o1-mini">copilot|o1-mini</option>
-                                  <option value="copilot|o1-preview">copilot|o1-preview</option>
-                                  <option value="gemini|gemini-1.5">gemini|gemini-1.5</option> */}
-                        </select>
-                      ) : (
-                        ""
-                      )}
                     </div>
                   </div>
                 </div>
@@ -1517,4 +1497,4 @@ const styles = {
   },
 };
 
-export default MainView;
+export default MainViewCLI;

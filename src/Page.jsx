@@ -4,18 +4,19 @@ import MainView from './component/mainView';
 import NavBar from './component/navBar';
 import SideBar from './component/sidebar';
 import Footer from './component/footer';
-import { BrowserRouter as Router,Route,Routes,Link, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from "react-router-dom";
+import MainViewCLI from "./component/mainView_CLI";
 
 
-function Pages({ aimodel,llmmodel, llm,llmkey,breadcrumb,headertext }) {
+function Pages({ aimodel, llmmodel, llm, llmkey, breadcrumb, headertext }) {
   const [active, setActive] = useState(aimodel);
-  const [userName, setUserName] = useState("gabriel") ; 
-  
+  const [userName, setUserName] = useState("gabriel");
+
 
   // useEffect(() => {
   //   window.location.reload()
   // }, [location.pathname])
-  
+
 
 
   return (
@@ -23,7 +24,26 @@ function Pages({ aimodel,llmmodel, llm,llmkey,breadcrumb,headertext }) {
       <NavBar />
       <div className='d-flex dashboardPage'>
         <SideBar setActive={setActive} active={active} userName={userName} />
-        <MainView active={active} llmmodel={llmmodel} llm={llm} llmkey={llmkey} breadcrumb={breadcrumb} headertext={headertext} username={userName} />
+        {llmmodel != "cli" ? (
+          <MainView
+            active={active}
+            llmmodel={llmmodel}
+            llm={llm}
+            llmkey={llmkey}
+            breadcrumb={breadcrumb}
+            headertext={headertext}
+            username={userName} />
+        ) : (
+          <MainViewCLI
+            active={active}
+            llmmodel={llmmodel}
+            llm={llm}
+            llmkey={llmkey}
+            breadcrumb={breadcrumb}
+            headertext={headertext}
+            username={userName}
+          />
+        )}
       </div>
       {/* <Footer /> */}
     </div>
